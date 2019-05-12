@@ -1,8 +1,6 @@
 import { combineReducers } from "redux";
-import queryResultsReducer from "./queryResultsReducer";
-import queryTextReducer from "./queryTextReducer";
+import queryViewsReducer from "./queryViewsReducer";
 
 export default combineReducers({
-  queryResults: queryResultsReducer,
-  queryText: queryTextReducer
+  queryViews: queryViewsReducer
 });
