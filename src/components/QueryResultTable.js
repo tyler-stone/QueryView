@@ -1,4 +1,5 @@
 import React from "react";
+import "./QueryResultTable.css";
 
 const QueryResultTableHeaders = props => {
   return props.headers.map(header => {
@@ -20,16 +21,18 @@ const QueryResultTableRows = props => {
 
 const QueryResultTable = props => {
   return (
-    <table className="ui celled table">
-      <thead>
-        <tr>
-          <QueryResultTableHeaders headers={props.results.headers} />
-        </tr>
-      </thead>
-      <tbody>
-        <QueryResultTableRows rows={props.results.rows} />
-      </tbody>
-    </table>
+    <div className="queryTable">
+      <table className="ui celled table">
+        <thead>
+          <tr>
+            <QueryResultTableHeaders headers={props.results.headers} />
+          </tr>
+        </thead>
+        <tbody>
+          <QueryResultTableRows rows={props.results.rows} />
+        </tbody>
+      </table>
+    </div>
   );
 };
 

@@ -136,7 +136,7 @@ class QueryContainer extends React.Component {
           viewMode={this.state.viewMode}
           onClick={this.toggleViewMode.bind(this)}
         />
-        {resultsDisplay}
+        <div className="resultsDisplay">{resultsDisplay}</div>
       </div>
     );
   }

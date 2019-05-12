@@ -4,6 +4,7 @@ import QueryContainer from "./QueryContainer";
 import { createQueryView } from "../actions";
 
 import "./App.css";
+
 class App extends React.Component {
   render() {
     return (
