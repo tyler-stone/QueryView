@@ -12,7 +12,7 @@ import {
   VerticalBarSeries
 } from "react-vis";
 import QueryResultTable from "./QueryResultTable";
-import { runQuery, updateQueryText } from "../actions";
+import { fetchQueyResult, updateQueryText } from "../actions";
 
 import "brace/mode/sql";
 import "brace/ext/language_tools";
@@ -61,6 +61,9 @@ class QueryContainer extends React.Component {
       border: "1px solid #ddd",
       borderRadius: "4px"
     };
+
+    let queryButtonClasses =
+      "ui primary button " + (this.props.isFetching ? "loading" : "");
 
     let resultsDisplay = (
       <div>
@@ -126,8 +129,8 @@ class QueryContainer extends React.Component {
           style={editorStyles}
         />
         <button
-          onClick={this.props.onQueryRunClick}
-          className="ui primary button"
+          className={queryButtonClasses}
+          onClick={() => this.props.onQueryRunClick(this.props.query)}
         >
           Run Query
         </button>
@@ -135,6 +138,7 @@ class QueryContainer extends React.Component {
           showButton={this.props.queryResults !== null}
           viewMode={this.state.viewMode}
           onClick={this.toggleViewMode.bind(this)}
+          isFetching={this.props.isFetching}
         />
         <div className="resultsDisplay">{resultsDisplay}</div>
       </div>
@@ -144,18 +148,19 @@ class QueryContainer extends React.Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onQueryRunClick: () => {
-      dispatch(runQuery(ownProps.id));
+    onQueryRunClick: query => {
+      console.log(ownProps);
+      dispatch(fetchQueyResult(ownProps.id, query));
     },
-    onQueryTextUpdate: queryText => {
-      dispatch(updateQueryText(ownProps.id, queryText));
+    onQueryTextUpdate: query => {
+      dispatch(updateQueryText(ownProps.id, query));
     }
   };
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state.queryViews[ownProps.id]);
-  return { ...state.queryViews[ownProps.id] };
+  console.log({ ...state.queryViews[ownProps.id] });
+  return state.queryViews[ownProps.id];
 };
 
 export default connect(

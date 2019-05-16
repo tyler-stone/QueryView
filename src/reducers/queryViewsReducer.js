@@ -19,12 +19,21 @@ const queryViewsReducer = (queryViews = initialState, action) => {
         ...queryViews,
         [initialQvId]: generateQueryViewInstanceState(initialQvId)
       };
+    case "QUERY_RESPONSE_REQUESTED":
+      return {
+        ...queryViews,
+        [action.id]: {
+          ...queryViews[action.id],
+          isFetching: true
+        }
+      };
     case "QUERY_RESPONSE_RECEIVED":
       return {
         ...queryViews,
         [action.id]: {
           ...queryViews[action.id],
-          queryResults: action.payload
+          queryResults: action.payload,
+          isFetching: false
         }
       };
     case "QUERY_TEXT_UPDATED":

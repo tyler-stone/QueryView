@@ -1,19 +1,4 @@
-export const runQuery = id => {
-  const response = {
-    headers: ["Name", "Age", "Job"],
-    rows: [
-      ["James", 24, "Engineer"],
-      ["Jill", 89, "Engineer"],
-      ["Elyse", 76, "Designer"]
-    ]
-  };
-
-  return {
-    type: "QUERY_RESPONSE_RECEIVED",
-    id,
-    payload: response
-  };
-};
+import axios from "axios";
 
 export const updateQueryText = (id, queryText) => {
   return {
@@ -28,3 +13,33 @@ export const createQueryView = () => {
     type: "QUERY_CREATE_NEW"
   };
 };
+
+export const requestQueryResult = id => {
+  return {
+    type: "QUERY_RESPONSE_REQUESTED",
+    id
+  };
+};
+
+export const receiveQueryResult = (id, response) => {
+  return {
+    type: "QUERY_RESPONSE_RECEIVED",
+    id,
+    payload: response
+  };
+};
+
+export function fetchQueyResult(id, query) {
+  return function(dispatch) {
+    dispatch(requestQueryResult(id));
+    return axios
+      .post("http://localhost:3001/api/query", {
+        query
+      })
+      .then(response => dispatch(receiveQueryResult(id, response.data.result)))
+      .catch(error => {
+        console.log(error);
+        dispatch(receiveQueryResult(id, null));
+      });
+  };
+}
