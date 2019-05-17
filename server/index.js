@@ -1,14 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
-var cors = require("cors");
+const cors = require("cors");
 
 const app = express();
 app.use(bodyParser.json());
 app.use(pino);
 app.use(cors());
 
-const mockResponse = {
+const mockQueryResponse = {
   headers: ["Name", "Age", "Job"],
   rows: [
     ["James", 24, "Engineer"],
@@ -17,14 +17,28 @@ const mockResponse = {
   ]
 };
 
+const connectionsResponse = {
+  connections: ["PrestoDB", "MSSQL"]
+};
+
+app.get("/api/connections", (req, res) => {
+  let success = true;
+  let result = connectionsResponse;
+
+  res.setHeader("Content-Type", "application/json");
+  res.send(JSON.stringify({ success, result }));
+});
+
 app.post("/api/query", (req, res) => {
   const query = req.body.query;
+  const queryEngine = req.body.queryEngine;
+
   let result = null;
   let success = false;
 
   if (query) {
     success = true;
-    result = mockResponse;
+    result = mockQueryResponse;
   }
 
   res.setHeader("Content-Type", "application/json");

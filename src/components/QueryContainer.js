@@ -8,9 +8,10 @@ import {
   ChartLabel,
   HorizontalGridLines,
   VerticalGridLines,
-  LineSeries,
   VerticalBarSeries
 } from "react-vis";
+import { Dropdown } from "semantic-ui-react";
+
 import QueryResultTable from "./QueryResultTable";
 import { fetchQueyResult, updateQueryText } from "../actions";
 
@@ -76,7 +77,7 @@ class QueryContainer extends React.Component {
         resultsDisplay = <QueryResultTable results={this.props.queryResults} />;
       } else {
         resultsDisplay = (
-          <FlexibleWidthXYPlot height={600} xType="ordinal">
+          <FlexibleWidthXYPlot height={400} xType="ordinal">
             <HorizontalGridLines />
             <VerticalGridLines />
             <XAxis />
@@ -127,6 +128,27 @@ class QueryContainer extends React.Component {
           onChange={this.props.onQueryTextUpdate}
           editorProps={{ $blockScrolling: true }}
           style={editorStyles}
+        />
+        <Dropdown
+          button
+          className="icon"
+          floating
+          labeled
+          icon="world"
+          options={[
+            {
+              key: "prestodb",
+              text: "PrestoDB",
+              value: "PrestoDB"
+            },
+            {
+              key: "mssql",
+              text: "MSSQL",
+              value: "MSSQL"
+            }
+          ]}
+          defaultValue={"PrestoDB"}
+          multiple={false}
         />
         <button
           className={queryButtonClasses}
