@@ -1,5 +1,17 @@
-const registerConnection = (connection, queryCallback) => {};
-export default registerConnection;
+var connections = {};
 
-const executeQuery = (connection, query) => {};
-export default executeQuery;
+const listConnections = () => connections;
+
+const registerConnection = (connection, queryCallback) => {
+  connections[connection] = queryCallback;
+};
+
+const executeQuery = (connection, query) => {
+  return connections[connection](query);
+};
+
+module.exports = {
+  listConnections,
+  registerConnection,
+  executeQuery
+};

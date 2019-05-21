@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
 const cors = require("cors");
 
+const db = require("./connections");
+
 const app = express();
 app.use(bodyParser.json());
 app.use(pino);
